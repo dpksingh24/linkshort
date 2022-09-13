@@ -1,4 +1,4 @@
-class LinksController < ApplicationController
+class UrlsController < ApplicationController
 
   before_action :search_url, only: [:show]
   skip_before_action :verify_authenticity_token
@@ -19,7 +19,7 @@ class LinksController < ApplicationController
 
   def show
     begin
-      render json: @url,
+      render json: @url.shorturl,
       status: :ok
     rescue => exception
       render json: { error: exception.message },
@@ -34,7 +34,7 @@ class LinksController < ApplicationController
   end
 
   def search_url
-    @url = Url.find_by!(slug: params[:name])
+    @url = Url.find_by!(id: params[:id])
   end
 
 end

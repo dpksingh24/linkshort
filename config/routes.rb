@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   root "links#index"
   get 'r', to:'redirects#index'
-  resources :urls
+  resources :urls, only: [:index, :create, :show]
 
   # namespace :controllers do
   #   resources :url do
