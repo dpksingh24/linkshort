@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
-  root "page#index"
-  get 'r', to: 'redirects#index'
-  resources :urls, only: :create
+  root "links#index"
+  get 'r', to:'redirects#index'
+  resources :urls
 
   # namespace :controllers do
   #   resources :url do

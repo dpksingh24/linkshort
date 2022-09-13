@@ -1,15 +1,9 @@
 class RedirectsController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  # skip_before_action :verify_authenticity_token
 
   def index
-    @url = Url.find_by!(slug_url: params[:slug]).url
+    @url = Url.find_by!(slug: params[:slug]).name
     redirect_to @url, allow_other_host: true
   end
 
 end
-
-
-
-# if params[:user_id].present?
-#   @articles = Article.where(user_id: params[:user_id])
-# else
