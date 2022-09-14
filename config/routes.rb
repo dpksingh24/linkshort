@@ -1,14 +1,14 @@
 Rails.application.routes.draw do
 
-  root "links#index"
-  get 'r', to:'redirects#index'
-  resources :urls, only: [:index, :create, :show]
+  # root "redirects#index"
+  get '/:url_id' => "redirects#index"
+  resources :urls, only: [:create, :show, :index]
 
   # namespace :controllers do
   #   resources :url do
-  #     resources :slug_url
+  #     resources :slug
   #   end
-  #     resources :slug_url
+  #     resources :slug
   # end
 
 end

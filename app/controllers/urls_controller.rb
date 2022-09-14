@@ -4,22 +4,33 @@ class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @urls = Url.all
-    render json: @urls, status: :ok
+    # if params[:user_id].present?
+    #   url = Url.where(slug: params[:url_id])
+    #   puts "--------------"
+    #   puts url.name
+    #   redirect_to url.name, allow_other_host: true
+    # else
+      urls = Url.all
+      render json: urls, status: :ok
+    # end
   end
 
   def create
     @url = Url.new(set_url_params)
-    if @url.save!
-      render json: @url.shorturl , status: :created
-    else
-      render json: @url.errors, status: :unprocessable_entity
+    begin
+      if @url.save!
+        render json: @url,
+        status: :created
+      end
+    rescue => exception
+      render json: {error: exception.message},
+      status: :unprocessable_entity
     end
   end
 
   def show
     begin
-      render json: @url.shorturl,
+      render json: @url,
       status: :ok
     rescue => exception
       render json: { error: exception.message },
@@ -35,6 +46,9 @@ class UrlsController < ApplicationController
 
   def search_url
     @url = Url.find_by!(id: params[:id])
+    if @url.blank?
+      render json "Id not Present!"
+    end
   end
 
 end
