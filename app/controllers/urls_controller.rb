@@ -1,53 +1,57 @@
 class UrlsController < ApplicationController
-
+  before_action :authentication
   before_action :search_url, only: [:show]
+
+  #skip the authenticity token.
   skip_before_action :verify_authenticity_token
 
   def index
-    # if params[:user_id].present?
-    #   url = Url.where(slug: params[:url_id])
-    #   puts "--------------"
-    #   puts url.name
-    #   redirect_to url.name, allow_other_host: true
-    # else
+    #display all the urls in the database.
       urls = Url.all
       render json: urls, status: :ok
-    # end
   end
 
   def create
+    #create a new url in the database.
     @url = Url.new(set_url_params)
-    begin
-      if @url.save!
-        render json: @url,
-        status: :created
-      end
-    rescue => exception
-      render json: {error: exception.message},
+    # generate random string of 3 characters and assign it to slug column in the database table.
+    @url.slug = SecureRandom.hex(3)
+
+    #if the url is not saved in the database then it will throw an error.
+    if @url.save!
+      render json: @url,
+      status: :created
+    else
+      render json: @url.errors,
       status: :unprocessable_entity
     end
   end
 
+  #display the details of the url in the show page.
   def show
-    begin
       render json: @url,
       status: :ok
-    rescue => exception
-      render json: { error: exception.message },
-      status: :unprocessable_entity
-    end
+  end
+
+  #top_url method is used to display the top 3 count urls in the database.
+  def top_urls
+    top_url = Url.order("count DESC").limit(3)
+    render json: top_url
   end
 
   private
 
+  #permit the name of the url to be saved in the database.
   def set_url_params
     params.require(:url).permit(:name)
   end
 
   def search_url
-    @url = Url.find_by!(id: params[:id])
+    #Url.find_by use for find the id of the url and display it in the show
+    @url = Url.find_by(id: params[:id])
     if @url.blank?
-      render json "Id not Present!"
+      #if the url is not present in the database then it will show the error message in the console.
+      render json: "Id not Present!"
     end
   end
 
