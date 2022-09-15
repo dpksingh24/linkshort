@@ -1,6 +1,14 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  # root "redirects#index"
+  get '/:url_id' => "redirects#index"
+  resources :urls, only: [:create, :show, :index]
+
+  # namespace :controllers do
+  #   resources :url do
+  #     resources :slug
+  #   end
+  #     resources :slug
+  # end
+
 end
