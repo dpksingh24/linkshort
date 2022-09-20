@@ -47,7 +47,13 @@ class UrlsController < ApplicationController
   end
 
   def top_level_domain
-    #Only get the top level domains
+    #List out all top level domains
+    top_level_domain = Url.group(:website_name).count
+    if top_level_domain.present?
+      render json: top_level_domain, status: :ok
+    else
+      render json: {message: "No top level domain"}, status: :unprocessable_entity
+    end
   end
 
   # search method is used to search the url in the database.
