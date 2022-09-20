@@ -47,6 +47,8 @@ class UrlsController < ApplicationController
     render json: top_url
   end
 
+
+
   # search method is used to search the url in the database.
   def search
     @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
