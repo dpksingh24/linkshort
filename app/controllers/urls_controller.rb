@@ -18,11 +18,10 @@ class UrlsController < ApplicationController
     # generate random string and number and assign it to slug column in the database table.
     @url.slug = SecureRandom.hex(2)
 
-    #URI is used to parse the url and get the website name.
-    #.host is used to get the host name of the url.
+    #this will trime only the https:// and www. from the url.
     # @url.website_name = URI.parse(@url.name).host
 
-    #gsup is used to get the website name from the url.
+    #with the help of gsub methodwe can remove .com from the url.
     @url.website_name = URI.parse(@url.name).host.gsub(/(http:\/\/|https:\/\/|www\.|\.com)/, "")
 
     #if the url is not saved in the database then it will throw an error.
@@ -45,6 +44,10 @@ class UrlsController < ApplicationController
   def top_urls
     top_url = Url.order("count DESC").limit(3)
     render json: top_url
+  end
+
+  def top_level_domain
+    #Only get the top level domains
   end
 
   # search method is used to search the url in the database.
