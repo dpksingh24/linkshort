@@ -7,8 +7,8 @@ class UrlsController < ApplicationController
 
   def index
     #display all the data in the database.
-      urls = Url.all
-      render json: urls, status: :ok
+    urls = Url.all
+    render json: urls, status: :ok
   end
 
   def create
@@ -23,7 +23,7 @@ class UrlsController < ApplicationController
       render json: @url,
       status: :created
     else
-      render json: @url.errors,
+      render json: {message: "Url not created"},
       status: :unprocessable_entity
     end
   end
@@ -40,16 +40,25 @@ class UrlsController < ApplicationController
     render json: top_url
   end
 
-  private
+  #   # search method is used to search the url in the database.
+  def search
+    @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
+    if @searchUrl.present?
+      render json: @searchUrl, status: :ok
+    else
+      render json: {message: "No record found"}
+    end
+  end
 
-  # used to prevent the mass assignment vulnerability.
+  private
+# used to prevent the mass assignment vulnerability.
   def set_url_params
     params.require(:url).permit(:name)
   end
 
   def search_url
     #Url.find_by use for find the id of the url and display it in the show
-    @url = Url.find_by(slug: params[:slug])
+    @url = Url.find_by(id: params[:id])
     if @url.blank?
       #if the url is not present in the database then it will show the error message in the console.
       render json: "Id not Present!"
