@@ -29,6 +29,10 @@ gem "stimulus-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem "jbuilder"
 
+#use for trim the url
+#gem "annotate"
+
+#slug for url friendly url
 gem 'slug'
 
 # Use Redis adapter to run Action Cable in production

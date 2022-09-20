@@ -18,6 +18,9 @@ class UrlsController < ApplicationController
     # generate random string and number and assign it to slug column in the database table.
     @url.slug = SecureRandom.hex(2)
 
+    #URI is used to parse the url and get the website name.
+    @url.website_name = URI.parse(@url.name).host
+
     #if the url is not saved in the database then it will throw an error.
     if @url.save!
       render json: @url,

@@ -11,7 +11,7 @@ class RedirectsController < ApplicationController
       #redirect to the url name.
       redirect_to @url.name, allow_other_host: true
     else
-      render json: "error!"
+      render json: "Url not found"
     end
   end
 
