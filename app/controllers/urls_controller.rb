@@ -19,7 +19,11 @@ class UrlsController < ApplicationController
     @url.slug = SecureRandom.hex(2)
 
     #URI is used to parse the url and get the website name.
-    @url.website_name = URI.parse(@url.name).host
+    #.host is used to get the host name of the url.
+    # @url.website_name = URI.parse(@url.name).host
+
+    #gsup is used to get the website name from the url.
+    @url.website_name = URI.parse(@url.name).host.gsub(/(http:\/\/|https:\/\/|www\.|\.com)/, "")
 
     #if the url is not saved in the database then it will throw an error.
     if @url.save!
