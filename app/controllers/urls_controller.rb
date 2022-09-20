@@ -6,16 +6,17 @@ class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    #display all the urls in the database.
+    #display all the data in the database.
       urls = Url.all
       render json: urls, status: :ok
   end
 
   def create
-    #create a new url in the database.
+    #create a new record in the database.
     @url = Url.new(set_url_params)
-    # generate random string of 3 characters and assign it to slug column in the database table.
-    @url.slug = SecureRandom.hex(3)
+
+    # generate random string and number and assign it to slug column in the database table.
+    @url.slug = SecureRandom.hex(2)
 
     #if the url is not saved in the database then it will throw an error.
     if @url.save!
@@ -41,14 +42,14 @@ class UrlsController < ApplicationController
 
   private
 
-  #permit the name of the url to be saved in the database.
+  # used to prevent the mass assignment vulnerability.
   def set_url_params
     params.require(:url).permit(:name)
   end
 
   def search_url
     #Url.find_by use for find the id of the url and display it in the show
-    @url = Url.find_by(id: params[:id])
+    @url = Url.find_by(slug: params[:slug])
     if @url.blank?
       #if the url is not present in the database then it will show the error message in the console.
       render json: "Id not Present!"

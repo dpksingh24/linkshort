@@ -8,6 +8,4 @@ class UrlTest < ActiveSupport::TestCase
     assert_not @url.valid? #test for false
   end
 
-
-
 end
