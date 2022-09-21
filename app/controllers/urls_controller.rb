@@ -14,15 +14,16 @@ class UrlsController < ApplicationController
   def create
     #create a new record in the database.
     @url = Url.new(set_url_params)
-
     # generate random string and number and assign it to slug column in the database table.
     @url.slug = SecureRandom.hex(2)
 
     #this will trime only the https:// and www. from the url.
     # @url.website_name = URI.parse(@url.name).host
 
-    #with the help of gsub methodwe can remove .com from the url.
+    #with the help of gsub method we can remove .com from the url.
     @url.website_name = URI.parse(@url.name).host.gsub(/(http:\/\/|https:\/\/|www\.|\.com)/, "")
+
+    # binding.irb
 
     #if the url is not saved in the database then it will throw an error.
     if @url.save!
@@ -43,7 +44,7 @@ class UrlsController < ApplicationController
   #top_url method is used to display the top 3 count urls in the database.
   def top_urls
     top_url = Url.order("count DESC").limit(3)
-    render json: top_url
+    render json: top_url, status: :ok
   end
 
   def top_level_domain
