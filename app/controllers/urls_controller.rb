@@ -53,14 +53,14 @@ class UrlsController < ApplicationController
 
     urlArr = []
     urls = Url.all.pluck(:name)
-    urls.each do |url|
-      uri = URI(url)
+    urls.each do |actualUrl|
+      uri = URI(actualUrl)
       uri = uri.host
       urlArr << uri.split(".")[1]
     end
-    puts urlArr
+    # puts urlArr
 
-    top_level_domain =  Hash[urlArr.uniq.map {|v| [v, urlArr.count(v)]}]
+    top_level_domain =  Hash[urlArr.uniq.map {|value| [value, urlArr.count(value)]}]
     render json: top_level_domain, status: :ok
 
     # groupingUrl = Url.Name.split(".")[2]
