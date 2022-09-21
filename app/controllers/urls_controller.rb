@@ -57,6 +57,10 @@ class UrlsController < ApplicationController
     end
   end
 
+  def login
+    #login functions
+  end
+
   # search method is used to search the url in the database.
   def search
     @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
