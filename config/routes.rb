@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :urls, only: [:create, :show, :index] do
     collection do
       get :top_urls
-      get :search
+      # get :search
       get :top_level_domain
     end
   end
