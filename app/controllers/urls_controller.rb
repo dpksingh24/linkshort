@@ -90,7 +90,7 @@ class UrlsController < ApplicationController
     #Url.find_by use for find the id of the url and display it in the show
     @url = Url.find_by(id: params[:id])
     if @url.blank?
-      render json: "Id not Present!"
+      render json: "ID not Present!"
     end
   end
 
