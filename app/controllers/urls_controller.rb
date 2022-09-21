@@ -62,15 +62,6 @@ class UrlsController < ApplicationController
 
     top_level_domain =  Hash[urlArr.uniq.map {|v| [v, urlArr.count(v)]}]
     render json: top_level_domain, status: :ok
-
-    # groupingUrl = Url.Name.split(".")[2]
-    # top_level_domain = groupingUrl.group(:groupingUrl).count
-
-    # if top_level_domain.present?
-    #   render json: top_level_domain, status: :ok
-    # else
-    #   render json: {message: "No top level domain"}, status: :unprocessable_entity
-    # end
   end
 
   # search method is used to search the url in the database.
