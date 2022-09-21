@@ -49,16 +49,28 @@ class UrlsController < ApplicationController
 
   def top_level_domain
     #count all top level domains
-    top_level_domain = Url.group(:website_name).count
-    if top_level_domain.present?
-      render json: top_level_domain, status: :ok
-    else
-      render json: {message: "No top level domain"}, status: :unprocessable_entity
-    end
-  end
+    # top_level_domain = Url.group(:anem).count
 
-  def login
-    #login functions
+    urlArr = []
+    urls = Url.all.pluck(:name)
+    urls.each do |url|
+      uri = URI(url)
+      uri = uri.host
+      urlArr << uri.split(".")[1]
+    end
+    puts urlArr
+
+    top_level_domain =  Hash[urlArr.uniq.map {|v| [v, urlArr.count(v)]}]
+    render json: top_level_domain, status: :ok
+
+    # groupingUrl = Url.Name.split(".")[2]
+    # top_level_domain = groupingUrl.group(:groupingUrl).count
+
+    # if top_level_domain.present?
+    #   render json: top_level_domain, status: :ok
+    # else
+    #   render json: {message: "No top level domain"}, status: :unprocessable_entity
+    # end
   end
 
   # search method is used to search the url in the database.
