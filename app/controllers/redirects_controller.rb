@@ -1,5 +1,7 @@
 class RedirectsController < ApplicationController
 
+  require "net/http"
+
   def redirect
     #find the slug of the url and display it in the show page.
     @url = Url.find_by(slug: params[:url_id])
@@ -9,10 +11,18 @@ class RedirectsController < ApplicationController
       @url.count += 1
       @url.save!
       #redirect to the url name.
-      redirect_to @url.name, allow_other_host: true
-    else
-      render json: "Url not found"
+
+      urlCheck = URI.parse(@url.name)
+      req = Net::HTTP.new(urlCheck.host, urlCheck.port)
+      req.use_ssl = true
+      res = req.request_head(urlCheck.path)
+      if res.code == "200"
+        redirect_to @url.name, status: :ok
+      else
+        render json: {message: "Url not found"}, status: :unprocessable_entity
+      end
     end
   end
 
 end
+
