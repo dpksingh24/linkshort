@@ -2,6 +2,9 @@ class UrlsController < ApplicationController
   before_action :authentication
   before_action :search_url, only: [:show]
 
+  #without 'net/http' => uninitialized constant Net::HTTP
+  require 'net/http'
+
   #skip the authenticity token.
   skip_before_action :verify_authenticity_token
 
@@ -24,6 +27,7 @@ class UrlsController < ApplicationController
   def create
     #create a new record in the database.
     @url = Url.new(set_url_params)
+
     # generate random string and number and assign it to slug column in the database table.
     @url.slug = SecureRandom.hex(2)
 
@@ -35,12 +39,18 @@ class UrlsController < ApplicationController
 
     # binding.irb
 
-    #if the url is not saved in the database then it will throw an error.
-    if @url.save!
-      render json: @url,
-      status: :created
+    urlCheck = URI.parse(@url.name)
+    req = Net::HTTP.new(urlCheck.host, urlCheck.port)
+    req.use_ssl = true
+    path = urlCheck.path if urlCheck.path.present?
+    res = req.request_head(path || '/')
+
+    if res.code == "200"
+      if @url.save!
+        render json: @url, status: :created
+      end
     else
-      render json: {message: "Url not created"},
+      render json: { message: "the request URL #{@url.name} was not found on this server" },
       status: :unprocessable_entity
     end
   end
