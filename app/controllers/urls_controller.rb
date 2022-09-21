@@ -69,19 +69,6 @@ class UrlsController < ApplicationController
     end
     top_level_domain =  Hash[urlArr.uniq.map {|value| [value, urlArr.count(value)]}]
     render json: top_level_domain, status: :ok
-<<<<<<< HEAD
-  end
-
-  # search method is used to search the url in the database.
-  def search
-    @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
-    if @searchUrl.present?
-      render json: @searchUrl, status: :ok
-    else
-      render json: {message: "No record found"}
-    end
-=======
->>>>>>> search
   end
 
   # used to prevent the mass assignment vulnerability.
