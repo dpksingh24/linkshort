@@ -7,7 +7,7 @@ class UrlsController < ApplicationController
 
   #display all the data in the database.
   def index
-
+    # searchUrl is used to search the url in the database.
     if params[:s].present?
       @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
       if @searchUrl.present?
@@ -19,7 +19,6 @@ class UrlsController < ApplicationController
       urls = Url.all
       render json: urls, status: :ok
     end
-
   end
 
   def create
