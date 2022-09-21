@@ -5,10 +5,21 @@ class UrlsController < ApplicationController
   #skip the authenticity token.
   skip_before_action :verify_authenticity_token
 
+  #display all the data in the database.
   def index
-    #display all the data in the database.
-    urls = Url.all
-    render json: urls, status: :ok
+
+    if params[:s].present?
+      @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
+      if @searchUrl.present?
+        render json: @searchUrl, status: :ok
+      else
+        render json: {message: "No record found"}
+      end
+    else
+      urls = Url.all
+      render json: urls, status: :ok
+    end
+
   end
 
   def create
@@ -48,20 +59,17 @@ class UrlsController < ApplicationController
   end
 
   def top_level_domain
-    #count all top level domains
-    # top_level_domain = Url.group(:anem).count
-
+    #count all top level domains in the database.
     urlArr = []
     urls = Url.all.pluck(:name)
-    urls.each do |url|
-      uri = URI(url)
+    urls.each do |actualUrl|
+      uri = URI(actualUrl)
       uri = uri.host
       urlArr << uri.split(".")[1]
     end
-    puts urlArr
-
-    top_level_domain =  Hash[urlArr.uniq.map {|v| [v, urlArr.count(v)]}]
+    top_level_domain =  Hash[urlArr.uniq.map {|value| [value, urlArr.count(value)]}]
     render json: top_level_domain, status: :ok
+<<<<<<< HEAD
   end
 
   # search method is used to search the url in the database.
@@ -72,10 +80,12 @@ class UrlsController < ApplicationController
     else
       render json: {message: "No record found"}
     end
+=======
+>>>>>>> search
   end
 
+  # used to prevent the mass assignment vulnerability.
   private
-# used to prevent the mass assignment vulnerability.
   def set_url_params
     params.require(:url).permit(:name)
   end
@@ -84,7 +94,6 @@ class UrlsController < ApplicationController
     #Url.find_by use for find the id of the url and display it in the show
     @url = Url.find_by(id: params[:id])
     if @url.blank?
-      #if the url is not present in the database then it will show the error message in the console.
       render json: "Id not Present!"
     end
   end
