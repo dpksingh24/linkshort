@@ -19,7 +19,7 @@ class UrlsController < ApplicationController
         render json: {message: "No record found"}
       end
     else
-      urls = Url.all
+      urls = Url.paginate(page: params[:page], per_page: 3)
       render json: urls, status: :ok
     end
   end
