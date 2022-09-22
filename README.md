@@ -22,9 +22,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
-<!-- http://localhost:3000/urls/1/?auth_token=f65f8a77f3147a47f195 -->
+http://localhost:3000/urls/1/?auth_token=f65f8a77f3147a47f195
 * search url
-<!-- http://localhost:3000/urls/search?auth_token=f65f8a77f3147a47f195&s=link -->
+http://localhost:3000/urls/search?auth_token=f65f8a77f3147a47f195&s=link
 
 * pagination
-<!-- http://localhost:3000/?page=1&auth_token=f65f8a77f3147a47f195 -->
+http://localhost:3000/?page=1&auth_token=f65f8a77f3147a47f195
