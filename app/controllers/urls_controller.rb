@@ -39,16 +39,8 @@ class UrlsController < ApplicationController
 
     # binding.irb
 
-    urlCheck = URI.parse(@url.name)
-    req = Net::HTTP.new(urlCheck.host, urlCheck.port)
-    req.use_ssl = true
-    path = urlCheck.path if urlCheck.path.present?
-    res = req.request_head(path || '/')
-
-    if res.code == "200"
-      if @url.save!
-        render json: @url, status: :created
-      end
+    if @url.save!
+      render json: @url, status: :created
     else
       render json: { message: "the request URL #{@url.name} was not found on this server" },
       status: :unprocessable_entity
