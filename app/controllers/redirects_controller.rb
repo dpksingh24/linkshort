@@ -6,8 +6,7 @@ class RedirectsController < ApplicationController
 
     #count the number of times the url is clicked.
     if @url.present?
-      @url.count += 1
-      @url.save!
+      ClickCount.count.async(id)
       redirect_to @url.name, allow_other_host: true
     else
       render json: "Url not found"
