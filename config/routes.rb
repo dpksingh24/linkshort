@@ -4,9 +4,6 @@ Rails.application.routes.draw do
   get '/:url_id' => "redirects#redirect"
 
   # resources :users, only: [:index, :show]
-  get '/users' => "users#index"
-  get '/users/:id' => "users#show"
-
 
   resources :urls, only: [:create, :show, :index] do
     collection do
