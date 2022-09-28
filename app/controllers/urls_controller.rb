@@ -8,7 +8,6 @@ class UrlsController < ApplicationController
   #skip the authenticity token.
   skip_before_action :verify_authenticity_token
 
-  #display all the data in the database.
   def index
       urls = Url.paginate(page: params[:page], per_page: 3)
       render json: urls, status: :ok
@@ -20,9 +19,6 @@ class UrlsController < ApplicationController
 
     # generate random string and number and assign it to slug column in the database table.
     @url.slug = SecureRandom.hex(2)
-
-    #this will trime only the https:// and www. from the url.
-    # @url.website_name = URI.parse(@url.name).host
 
     #with the help of gsub method we can remove .com from the url.
     @url.website_name = URI.parse(@url.name).host.gsub(/(http:\/\/|https:\/\/|www\.|\.com)/, "")
@@ -67,11 +63,13 @@ class UrlsController < ApplicationController
   def search
     if params[:s].present?
       @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
-      if @searchUrl.present?
+      if @searchUrl
         render json: @searchUrl, status: :ok
       else
-        render json: {message: "No record found"}
+        render json: { message: "please enter a a valid symbol to search" }
       end
+    else
+      render json: { message: "please enter a symbol to search" }
     end
   end
 
