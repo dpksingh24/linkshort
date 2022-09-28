@@ -10,18 +10,8 @@ class UrlsController < ApplicationController
 
   #display all the data in the database.
   def index
-    # searchUrl is used to search the url in the database.
-    if params[:s].present?
-      @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
-      if @searchUrl.present?
-        render json: @searchUrl, status: :ok
-      else
-        render json: {message: "No record found"}
-      end
-    else
       urls = Url.paginate(page: params[:page], per_page: 3)
       render json: urls, status: :ok
-    end
   end
 
   def create
@@ -70,6 +60,19 @@ class UrlsController < ApplicationController
     end
     top_level_domain =  Hash[urlArr.uniq.map {|value| [value, urlArr.count(value)]}]
     render json: top_level_domain, status: :ok
+  end
+
+
+  # searchUrl is used to search the url in the database.
+  def search
+    if params[:s].present?
+      @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
+      if @searchUrl.present?
+        render json: @searchUrl, status: :ok
+      else
+        render json: {message: "No record found"}
+      end
+    end
   end
 
   # used to prevent the mass assignment vulnerability.
