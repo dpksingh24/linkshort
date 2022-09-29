@@ -63,7 +63,7 @@ class UrlsController < ApplicationController
   def search
     if params[:s].present?
       @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
-      if @searchUrl
+      if @searchUrl.present?
         render json: @searchUrl, status: :ok
       else
         render json: { message: "please enter a a valid symbol to search" }
