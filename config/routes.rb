@@ -5,10 +5,10 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show]
 
-  resources :urls, only: [:create, :show] do
+  resources :urls, only: [:create, :show, :index] do
     collection do
       get :top_urls
-      get :search
+      # get :search
       get :top_level_domain
     end
   end

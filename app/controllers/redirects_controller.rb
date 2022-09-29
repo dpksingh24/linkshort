@@ -9,7 +9,7 @@ class RedirectsController < ApplicationController
       ClickCount.perform_async(@url.id)
       redirect_to @url.name, allow_other_host: true
     else
-      render json: "Url not found"
+      render json: "redirect -url not found"
     end
   end
 

@@ -9,8 +9,17 @@ class UrlsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-      urls = Url.paginate(page: params[:page], per_page: 3)
-      render json: urls, status: :ok
+      if params[:s].present?
+        @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
+        if @searchUrl.present?
+          render json: @searchUrl, status: :ok
+        else
+          render json: { message: "please enter a valid symbol to search" }
+        end
+      else
+        urls = Url.paginate(page: params[:page], per_page: 3)
+        render json: urls, status: :ok
+      end
   end
 
   def create
