@@ -8,19 +8,17 @@ class UrlsController < ApplicationController
   #skip the authenticity token.
   skip_before_action :verify_authenticity_token
 
+  # searchUrl is used to search the url in the database.
   def index
-      if params[:s].present?
-        @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
-        if @searchUrl.present?
-          render json: @searchUrl, status: :ok
-        else
-          render json: { message: "please enter a valid symbol to search" }
-        end
-      else
-        urls = Url.paginate(page: params[:page], per_page: 3)
-        render json: urls, status: :ok
-      end
+    url = Url.all
+    if params[:s].present?
+      url = url.where("name LIKE ?", "%" + params[:s] + "%")
+    end
+    urls = url.paginate(page: params[:page], per_page: 3)
+    render json: urls
   end
+
+
 
   def create
     #create a new record in the database.
