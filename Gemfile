@@ -44,7 +44,7 @@ gem "redis", "~> 4.0"
 
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
-
+gem 'semantic-ui-sass'
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 # gem "bcrypt", "~> 3.1.7"
 
@@ -57,8 +57,9 @@ gem "bootsnap", require: false
 gem 'figaro'
 
 # Use Sass to process CSS
-# gem "sassc-rails"
+#gem "sassc-rails"
 
+gem 'sassc'
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
@@ -83,4 +84,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'rspec-rails', '~> 6.0.0'
+  gem 'factory_bot_rails'
 end
+

@@ -18,8 +18,6 @@ class UrlsController < ApplicationController
     render json: urls
   end
 
-
-
   def create
     #create a new record in the database.
     @url = Url.new(set_url_params)

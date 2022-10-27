@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
   root "urls#index"
   get '/:url_id' => "redirects#redirect"
+  get 'status' => "status#index"
 
   resources :users, only: [:index, :show]
 
