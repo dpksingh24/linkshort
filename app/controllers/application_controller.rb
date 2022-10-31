@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
 
-  rescue_from ActiveRecord::RecordNotDestroyed, with: :not_destroyed
+  # rescue_from ActiveRecord::RecordNotDestroyed, with: :not_destroyed
 
     def authentication
       #unless auth_token is not equal to the Secutiy key then it will show the error message in the console.
@@ -9,10 +9,10 @@ class ApplicationController < ActionController::Base
       end
     end
 
-    private
+    # private
 
-    def not_destroyed(e)
-      render json: { errors; e.record.errors }, status: :unprocessable_entity
-    end
+    # def not_destroyed(e)
+    #   render json: { errors; e.record.errors }, status: :unprocessable_entity
+    # end
 
 end
