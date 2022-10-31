@@ -67,17 +67,13 @@ module Api
         render json: top_level_domain, status: :ok
       end
 
-      if @searchUrl.present?
-      # searchUrl is used to search the url in the database.
+        # searchUrl is used to search the url in the database.
       def search
         if params[:s].present?
           @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
             render json: @searchUrl, status: :ok
         else
           render json: { message: "please enter a a valid symbol to search" }
-        end
-        # else
-        #   render json: { message: "please enter a symbol to search" }
         end
       end
 
@@ -88,6 +84,7 @@ module Api
 
       # used to prevent the mass assignment vulnerability.
       private
+
       def set_url_params
         params.require(:url).permit(:name)
       end
@@ -99,6 +96,7 @@ module Api
           render json: "ID is not Present!"
         end
       end
+
     end
   end
 end
