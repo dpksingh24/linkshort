@@ -1,6 +1,7 @@
 class UrlsController < ApplicationController
   before_action :authentication
-  before_action :search_url, only: [:show]
+  before_action :search_url, only: [:show, :destroy]
+
 
   #without 'net/http' => uninitialized constant Net::HTTP
   require 'net/http'
@@ -56,6 +57,7 @@ class UrlsController < ApplicationController
     urls = Url.all.pluck(:name)
     urls.each do |actualUrl|
       uri = URI(actualUrl)
+
       uri = uri.host
       urlArr << uri.split(".")[1]
     end
@@ -63,12 +65,11 @@ class UrlsController < ApplicationController
     render json: top_level_domain, status: :ok
   end
 
-
+  if @searchUrl.present?
   # searchUrl is used to search the url in the database.
   def search
     if params[:s].present?
       @searchUrl = Url.where("name LIKE ?", "%" + params[:s] + "%")
-      if @searchUrl.present?
         render json: @searchUrl, status: :ok
       else
         render json: { message: "please enter a a valid symbol to search" }
@@ -76,6 +77,11 @@ class UrlsController < ApplicationController
     else
       render json: { message: "please enter a symbol to search" }
     end
+  end
+
+  def destroy
+    @url.destroy!
+    render json: @url
   end
 
   # used to prevent the mass assignment vulnerability.
@@ -91,5 +97,4 @@ class UrlsController < ApplicationController
       render json: "ID is not Present!"
     end
   end
-
 end

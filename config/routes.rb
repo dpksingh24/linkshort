@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show]
 
-  resources :urls, only: [:create, :show, :index] do
+  resources :urls, only: [:create, :show, :index, :destroy] do
     collection do
       get :top_urls
       get :top_level_domain
