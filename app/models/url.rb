@@ -18,5 +18,6 @@ class Url < ApplicationRecord
 
   validates :name, presence: true
   validates :website_name, presence: true
+
 end
 
