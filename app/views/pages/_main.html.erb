@@ -1,0 +1,19 @@
+<div id="tCreateTest">
+    <div class="createTestContainer">
+        <div class="text-left">
+            <div class="col-sm-10 form-group-lg">
+                <div id="testDetails">
+                    <%= form_with scope: :url, local: true do |f| %>
+                    <p>
+                        <%=f.label :title %><br/>
+                        <%=f.text_field :title %>
+                    </p>
+                    <p>
+                        <%= f.submit%>
+                    <p>
+                    <% end %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

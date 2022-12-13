@@ -39,6 +39,9 @@ gem 'will_paginate', '~> 3.3'
 
 gem "sidekiq"
 
+gem 'bootstrap', '~> 5.2.2'
+gem 'jquery-rails'
+
 # Use Redis adapter to run Action Cable in production
 gem "redis", "~> 4.0"
 
